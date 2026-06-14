@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Order Website</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+}
+
+header{
+    background:#ff5722;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
+
+.food-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 3px 10px rgba(0,0,0,0.2);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.food-icon{
+    font-size:80px;
+    text-align:center;
+    padding:20px;
+    background:#fff3e0;
+}
+
+.card-content{
+    padding:15px;
+}
+
+.card-content h3{
+    color:#ff5722;
+    margin-bottom:10px;
+}
+
+.card-content p{
+    margin:5px 0;
+}
+
+input[type="number"]{
+    width:80px;
+    padding:5px;
+    margin-top:10px;
+}
+
+.summary{
+    background:white;
+    margin-top:30px;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.2);
+}
+
+textarea{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    resize:none;
+}
+
+button{
+    margin-top:15px;
+    background:green;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    background:darkgreen;
+}
+
+#total{
+    font-size:24px;
+    color:#ff5722;
+    margin:15px 0;
+    font-weight:bold;
+}
+
+#message{
+    margin-top:20px;
+    padding:15px;
+    border-radius:5px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🍽 Online Food Ordering</h1>
+    <p>Fresh Food Delivered To Your Doorstep</p>
+</header>
+
+<div class="container">
+
+<div class="food-grid">
+
+    <div class="card">
+        <div class="food-icon">🍛</div>
+        <div class="card-content">
+            <h3>Chicken Biryani</h3>
+            <p>💰 Price: ₹250</p>
+            <p>⭐ Rating: 4.9</p>
+            <p>🚚 Delivery: 30 mins</p>
+            Qty:
+            <input type="number" id="biryani" min="0" value="0">
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="food-icon">🍕</div>
+        <div class="card-content">
+            <h3>Pizza</h3>
+            <p>💰 Price: ₹300</p>
+            <p>⭐ Rating: 4.8</p>
+            <p>🚚 Delivery: 25 mins</p>
+            Qty:
+            <input type="number" id="pizza" min="0" value="0">
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="food-icon">🍔</div>
+        <div class="card-content">
+            <h3>Burger</h3>
+            <p>💰 Price: ₹180</p>
+            <p>⭐ Rating: 4.7</p>
+            <p>🚚 Delivery: 20 mins</p>
+            Qty:
+            <input type="number" id="burger" min="0" value="0">
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="food-icon">🍟</div>
+        <div class="card-content">
+            <h3>French Fries</h3>
+            <p>💰 Price: ₹120</p>
+            <p>⭐ Rating: 4.6</p>
+            <p>🚚 Delivery: 15 mins</p>
+            Qty:
+            <input type="number" id="fries" min="0" value="0">
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="food-icon">🥤</div>
+        <div class="card-content">
+            <h3>Cold Drink</h3>
+            <p>💰 Price: ₹80</p>
+            <p>⭐ Rating: 4.5</p>
+            <p>🚚 Delivery: 10 mins</p>
+            Qty:
+            <input type="number" id="drink" min="0" value="0">
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="food-icon">🍨</div>
+        <div class="card-content">
+            <h3>Ice Cream</h3>
+            <p>💰 Price: ₹100</p>
+            <p>⭐ Rating: 4.8</p>
+            <p>🚚 Delivery: 15 mins</p>
+            Qty:
+            <input type="number" id="icecream" min="0" value="0">
+        </div>
+    </div>
+
+</div>
+
+<div class="summary">
+
+<h2>🧾 Order Summary</h2>
+
+<p id="total">Total Amount: ₹0</p>
+
+<label><b>📍 Delivery Address</b></label><br><br>
+
+<textarea
+id="address"
+rows="4"
+placeholder="Enter your full address here..."></textarea>
+
+<button onclick="placeOrder()">Place Order</button>
+
+<div id="message"></div>
+
+</div>
+
+</div>
+
+<script>
+
+function placeOrder(){
+
+let biryani = parseInt(document.getElementById("biryani").value) || 0;
+let pizza = parseInt(document.getElementById("pizza").value) || 0;
+let burger = parseInt(document.getElementById("burger").value) || 0;
+let fries = parseInt(document.getElementById("fries").value) || 0;
+let drink = parseInt(document.getElementById("drink").value) || 0;
+let icecream = parseInt(document.getElementById("icecream").value) || 0;
+
+let address =
+document.getElementById("address").value.trim();
+
+let total =
+(biryani * 250) +
+(pizza * 300) +
+(burger * 180) +
+(fries * 120) +
+(drink * 80) +
+(icecream * 100);
+
+document.getElementById("total").innerHTML =
+"Total Amount: ₹" + total;
+
+if(total === 0){
+document.getElementById("message").style.background="#ffebee";
+document.getElementById("message").style.color="red";
+document.getElementById("message").innerHTML =
+"⚠ Please select at least one food item.";
+return;
+}
+
+if(address === ""){
+document.getElementById("message").style.background="#ffebee";
+document.getElementById("message").style.color="red";
+document.getElementById("message").innerHTML =
+"⚠ Please enter your delivery address.";
+return;
+}
+
+document.getElementById("message").style.background="#e8f5e9";
+document.getElementById("message").style.color="green";
+
+document.getElementById("message").innerHTML =
+"✅ Your order is noted successfully!<br><br>" +
+"💵 Total Bill: ₹" + total + "<br><br>" +
+"📍 Delivery Address:<br>" +
+address + "<br><br>" +
+"🚚 Your food will be delivered within the specified delivery time.<br><br>" +
+"🍽 Thank you for ordering with us!";
+
+}
+
+</script>
+
+</body>
+</html>
